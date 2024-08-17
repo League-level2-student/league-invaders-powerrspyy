@@ -1,28 +1,31 @@
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-    
 
 public class LeagueInvaders {
-    
-    public static void setup(){
-    GamePanel gamePanel = new GamePanel();
-    
-    final int HEIGHT = 800;
-    final int WIDTH = 300;
+	GamePanel gamePanel = new GamePanel();
 
-    JFrame frame = new JFrame();
+	public static final int HEIGHT = 800;
+	public static final int WIDTH = 500;
 
-    frame.setSize(WIDTH, HEIGHT);
+	JFrame frame;// = new JFrame();
 
-    JLabel label = new JLabel("League Invaders");
+	public LeagueInvaders() {
+		frame = new JFrame("League Invaders");
+		// frame.setTitle("")
 
-    frame.add(label);
-    frame.add(gamePanel);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
 
-    frame.setVisible(true);}
-public static void main(String[] args){
-setup();
-}    
+	public void setup() {
+
+		frame.setSize(WIDTH, HEIGHT);
+		frame.add(gamePanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		frame.setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		LeagueInvaders main = new LeagueInvaders();
+		main.setup();
+	}
 
 }
