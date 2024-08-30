@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener{
+public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int MENU = 0;
 	final int GAME = 1;
 	final int END = 2;
@@ -19,14 +19,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	Timer frameDraw;
 	Font textFont;
 	Rocketship rocket;
-	
+
 	public GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		textFont = new Font("Arial", Font.PLAIN, 24);
-		frameDraw = new Timer(1000/60, this);
-		rocket = new Rocketship(250,700,50,50);
+		frameDraw = new Timer(1000 / 60, this);
+		rocket = new Rocketship(250, 700, 50, 50);
 		frameDraw.start();
 	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		g.fillRect(10, 10, 100, 100);
@@ -58,10 +59,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
 		g.setFont(titleFont);
 		g.setColor(Color.YELLOW);
-		g.drawString("LEAGUE INVADERS", 23, LeagueInvaders.HEIGHT/8);
+		g.drawString("LEAGUE INVADERS", 23, LeagueInvaders.HEIGHT / 8);
 		g.setFont(textFont);
-		g.drawString("Press ENTER to start", 135, LeagueInvaders.HEIGHT/2);
-		g.drawString("Press SPACE for instructions", 95, LeagueInvaders.HEIGHT * 3/4);
+		g.drawString("Press ENTER to start", 135, LeagueInvaders.HEIGHT / 2);
+		g.drawString("Press SPACE for instructions", 95, LeagueInvaders.HEIGHT * 3 / 4);
 	}
 
 	public void drawGameState(Graphics g) {
@@ -75,14 +76,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
 		g.setFont(titleFont);
 		g.setColor(Color.YELLOW);
-		g.drawString("GAME OVER", 100, LeagueInvaders.HEIGHT/8);
+		g.drawString("GAME OVER", 100, LeagueInvaders.HEIGHT / 8);
 		g.setFont(textFont);
-		g.drawString("You killed "+killed+" enemies!", 135,LeagueInvaders.HEIGHT/2 );
-		g.drawString("Press ENTER to restart!", 115, LeagueInvaders.HEIGHT*3/4);
+		g.drawString("You killed " + killed + " enemies!", 135, LeagueInvaders.HEIGHT / 2);
+		g.drawString("Press ENTER to restart!", 115, LeagueInvaders.HEIGHT * 3 / 4);
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		if (currentState == MENU) {
 			updateMenuState();
 		} else if (currentState == GAME) {
@@ -90,54 +92,60 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		} else if (currentState == END) {
 			updateEndState();
 		}
-		
+
 		repaint();
-		
+
 	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if(currentState == END) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if (currentState == END) {
 				currentState = MENU;
-			}else {
+			} else {
 				currentState++;
 			}
 		}
-		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
-			if(currentState == GAME) {
-				if(rocket.y - rocket.speed >= 0) {
+		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+			if (currentState == GAME) {
+				if (rocket.y - rocket.speed >= 0) {
 					rocket.up();
 				}
 			}
 		}
-		if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
-			if(currentState == GAME) {
-				if(rocket.y + rocket.speed + rocket.height <= LeagueInvaders.HEIGHT - 30) {
-					rocket.down(); 
+		if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+			if (currentState == GAME) {
+				if (rocket.y + rocket.speed + rocket.height <= LeagueInvaders.HEIGHT - 30) {
+					rocket.down();
 				}
-			}		}
-		if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
-			if(currentState == GAME) {
-				if(rocket.x - rocket.speed >= 0) {
+			}
+		}
+		if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
+			if (currentState == GAME) {
+				if (rocket.x - rocket.speed >= 0) {
 					rocket.left();
 				}
-			}		}
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
-			if(currentState == GAME) {
-				if(rocket.x + rocket.speed + rocket.width <= LeagueInvaders.WIDTH) {
+			}
+		}
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+			if (currentState == GAME) {
+				if (rocket.x + rocket.speed + rocket.width <= LeagueInvaders.WIDTH) {
 					rocket.right();
 				}
-			}		}
+			}
+		}
 
 	}
+
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -7,7 +7,7 @@ public class GameObject {
 	 int speed = 0;
 	 boolean isActive = true;
 
-	public GameObject(int x_int, int y_int, int w, int h){
+		public GameObject(int x_int, int y_int, int w, int h){
 		x = x_int;
 		y = y_int;
 		width = w;
