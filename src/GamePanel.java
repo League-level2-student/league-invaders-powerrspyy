@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -8,8 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
+	public static BufferedImage image;
+	public static boolean gotbg = false;
+	public static boolean needbg = true;
 	final int MENU = 0;
 	final int GAME = 1;
 	final int END = 2;
@@ -19,6 +24,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer frameDraw;
 	Font textFont;
 	Rocketship rocket;
+	ObjectManager OM;
+	Timer alienSpawn;
 
 	public GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
@@ -26,6 +33,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		frameDraw = new Timer(1000 / 60, this);
 		rocket = new Rocketship(250, 700, 50, 50);
 		frameDraw.start();
+		OM = new ObjectManager(rocket);
+		if(needbg) {
+			loadImage("space.png");
+		}
 	}
 
 	@Override
@@ -66,9 +77,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void drawGameState(Graphics g) {
+		if(gotbg) {
+			g.drawImage(image, 0,0,LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT, null);
+		}else {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
-		rocket.draw(g);
+		}
+		OM.update();
+		OM.draw(g);
 	}
 
 	public void drawEndState(Graphics g) {
@@ -105,6 +121,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			} else {
 				currentState++;
 			}
+			if(currentState == GAME) {
+				startGame();
+			}
+			else if(currentState == END) {
+				alienSpawn.stop();
+			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			if (currentState == GAME) {
@@ -134,6 +156,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 			}
 		}
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			OM.addProjectile(rocket.getProjectile());
+		}
+
+	}
+	public void loadImage(String imageFile) {
+		if (needbg) {
+			try {
+				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotbg = true;
+			} catch (Exception e) {
+
+			}
+			needbg = false;
+		}
+	}
+	public void startGame() {
+		alienSpawn = new Timer(1000 , OM);
+	    alienSpawn.start();
 
 	}
 
