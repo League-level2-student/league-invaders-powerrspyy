@@ -8,6 +8,7 @@ public class Rocketship extends GameObject {
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
+	public boolean movingUp;
 
 	public Rocketship(int x_int, int y_int, int w, int h) {
 		super(x_int, y_int, w, h);
@@ -17,14 +18,21 @@ public class Rocketship extends GameObject {
 		}
 
 	}
+	public void update() {
+		if(movingUp == true) {
+			up();
+		}
+        super.update();
+        
+	}
 
 	public void draw(Graphics g) {
-		super.update();
+		
 		if(gotImage) {
 			g.drawImage(image, x, y, width, height, null);
-		}else {
-		g.setColor(Color.BLUE);
-		g.fillRect(x, y, width, height);}
+		}
+		g.setColor(Color.YELLOW);
+		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 	}
 
 	public void up() {

@@ -15,17 +15,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage image;
 	public static boolean gotbg = false;
 	public static boolean needbg = true;
-	final int MENU = 0;
-	final int GAME = 1;
-	final int END = 2;
-	int currentState = MENU;
-	int killed = 0;
+	final static int MENU = 0;
+	final static int GAME = 1;
+	final static int END = 2;
+	static int currentState = MENU;
+	static int killed = 0;
 	Font titleFont;
 	Timer frameDraw;
 	Font textFont;
-	Rocketship rocket;
-	ObjectManager OM;
-	Timer alienSpawn;
+	static Rocketship rocket;
+	static ObjectManager OM;
+	static Timer alienSpawn;
 
 	public GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void updateGameState() {
-
+		
 	}
 
 	public void updateEndState() {
@@ -118,21 +118,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
 				currentState = MENU;
+			
 			} else {
-				currentState++;
+				if(currentState != GAME) {
+					currentState++;
+					currentState %= 3;
+				}
 			}
 			if(currentState == GAME) {
 				startGame();
 			}
-			else if(currentState == END) {
-				alienSpawn.stop();
-			}
+//			else if(currentState == END) {
+//				killed = OM.getScore();
+//				alienSpawn.stop();
+//				rocket = new Rocketship(250, 700, 50, 50);
+//				OM = new ObjectManager(rocket);
+//			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			if (currentState == GAME) {
-				if (rocket.y - rocket.speed >= 0) {
-					rocket.up();
-				}
+				rocket.movingUp = true;
+//				if (rocket.y - rocket.speed >= 0) {
+//					rocket.up();
+//				}
 			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
@@ -179,14 +187,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
+		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+			if (currentState == GAME) {
+				rocket.movingUp = false;
+			}}
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
+
+	}
+	public static void restart() {
+		killed = OM.getScore();
+		alienSpawn.stop();
+		rocket = new Rocketship(250, 700, 50, 50);
+		OM = new ObjectManager(rocket);
 
 	}
 }

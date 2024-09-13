@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,10 +12,14 @@ Rocketship rocket;
 ArrayList<Projectile> projectiles = new ArrayList<>();
 ArrayList<Alien> aliens = new ArrayList<>();
 Random random = new Random();
+Integer score;
+Font titleFont = new Font("Arial", Font.PLAIN, 22);
+
 
 
 	public ObjectManager(Rocketship rocketship) {
 		rocket = rocketship;
+		score = 0;
 	}
 	public void addProjectile(Projectile projectile) {
 		projectiles.add(projectile);
@@ -22,6 +28,9 @@ Random random = new Random();
 		aliens.add(new Alien(random.nextInt(LeagueInvaders.WIDTH), 0, 50, 50));
 	}
 	public void update() {
+		rocket.update();
+		checkCollision();
+		purgeObjects();
 		for(Alien a: aliens) {
 			a.update();
 			if(a.y + a.height > LeagueInvaders.HEIGHT - 30) {
@@ -30,9 +39,10 @@ Random random = new Random();
 		}
 		for(Projectile p: projectiles) {
 			p.update();
-			if(p.y + p.height < LeagueInvaders.HEIGHT) {
+			if(p.y + p.height < 0) {
 				p.isActive = false;
 			}
+			
 		}
 	}
 	public void draw(Graphics g) {
@@ -43,16 +53,20 @@ Random random = new Random();
 		for(Projectile p: projectiles) {
 			p.draw(g);
 		}
+		drawScore(g);
+		
+		
 	}
 	public void checkCollision() {
 		for(Alien a: aliens) {
 			for(Projectile p: projectiles) {
-				if (p.collisionBox.intersects(a.collisionBox) && p.isActive == true && a.isActive == true){
+				if (p.collisionBox.intersects(a.collisionBox)){// && p.isActive == true && a.isActive == true
 					a.isActive = false;
 					p.isActive = false;
+					score += 1;
 				}
 			}
-			if(rocket.collisionBox.intersects(a.collisionBox) && rocket.isActive == true && a.isActive == true) {
+			if(rocket.collisionBox.intersects(a.collisionBox)) {// && rocket.isActive == true && a.isActive == true
 				a.isActive = false;
 				rocket.isActive = false;
 			}
@@ -73,10 +87,23 @@ Random random = new Random();
 				iterP.remove();
 			}
 		}
+		if(rocket.isActive == false) {
+			GamePanel.currentState = GamePanel.END;
+			GamePanel.restart();
+		}
+	}
+	public int getScore() {
+		return score;
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		addAlien();		
 	}
+	public void drawScore(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.setFont(titleFont);
+		g.drawString("Score: " + score, 10,10);
+	}
+
 
 }
