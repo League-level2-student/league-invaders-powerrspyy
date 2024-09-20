@@ -102,7 +102,7 @@ Font titleFont = new Font("Arial", Font.PLAIN, 22);
 	public void drawScore(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.setFont(titleFont);
-		g.drawString("Score: " + score, 10,10);
+		g.drawString("Score: " + score, 10,50);
 	}
 
 

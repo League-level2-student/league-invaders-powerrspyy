@@ -9,6 +9,10 @@ public class Rocketship extends GameObject {
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
 	public boolean movingUp;
+	public boolean movingDown;
+	public boolean movingLeft;
+	public boolean movingRight;
+	
 
 	public Rocketship(int x_int, int y_int, int w, int h) {
 		super(x_int, y_int, w, h);
@@ -19,8 +23,18 @@ public class Rocketship extends GameObject {
 
 	}
 	public void update() {
-		if(movingUp == true) {
+		// GamePanel.
+		if(movingUp == true && GamePanel.rocket.y - GamePanel.rocket.speed >= 0) {
 			up();
+		}
+		if(movingDown == true && GamePanel.rocket.y + GamePanel.rocket.speed + GamePanel.rocket.height <= LeagueInvaders.HEIGHT - 30) {
+			down();
+		}
+		if(movingLeft == true && GamePanel.rocket.x - GamePanel.rocket.speed >= 0) {
+			left();
+		}
+		if(movingRight == true && GamePanel.rocket.x + GamePanel.rocket.speed + GamePanel.rocket.width <= LeagueInvaders.WIDTH) {
+			right();
 		}
         super.update();
         

@@ -145,23 +145,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			if (currentState == GAME) {
-				if (rocket.y + rocket.speed + rocket.height <= LeagueInvaders.HEIGHT - 30) {
-					rocket.down();
-				}
+				rocket.movingDown = true;
+//				if (rocket.y + rocket.speed + rocket.height <= LeagueInvaders.HEIGHT - 30) {
+//					rocket.down();
+//				}
 			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
 			if (currentState == GAME) {
-				if (rocket.x - rocket.speed >= 0) {
-					rocket.left();
-				}
+				rocket.movingLeft = true;
+//				if (rocket.x - rocket.speed >= 0) {
+//					rocket.left();
+//				}
 			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 			if (currentState == GAME) {
-				if (rocket.x + rocket.speed + rocket.width <= LeagueInvaders.WIDTH) {
-					rocket.right();
-				}
+				rocket.movingRight = true;
+//				if (rocket.x + rocket.speed + rocket.width <= LeagueInvaders.WIDTH) {
+//					rocket.right();
+//				}
 			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -193,6 +196,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (currentState == GAME) {
 				rocket.movingUp = false;
 			}}
+		if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+			if(currentState == GAME) {
+				rocket.movingDown = false;
+			}
+		}
+		if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
+			if(currentState == GAME) {
+				rocket.movingLeft = false;
+			}
+		}
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+			if(currentState == GAME) {
+				rocket.movingRight = false;
+			}
+		}
 
 	}
 
